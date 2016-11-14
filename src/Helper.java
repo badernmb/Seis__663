@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Helper {
 
-	// This method converts character to Askii.
+	// This method converts character to Askii .
 	public int convertLetterToNumber(char character) {
 
 		return (int) character;
