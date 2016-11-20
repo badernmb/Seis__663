@@ -1,24 +1,30 @@
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Random;
 
 public class Helper {
 
 	// This method converts character to Askii .
-	public int convertLetterToNumber(char character) {
+	public static int convertLetterToNumber(char character) {
 
 		return (int) character;
 
 	}
 
 	// This method converts Integer (Askii code) to character.
-	public char convertNumberToLetter(int number) {
+	public static char convertNumberToLetter(int number) {
 
 		return (char) number;
 
 	}
 
 	// This method checks if number given by the parameter is prime or not.
-	public boolean isPrimee(int primeNumberCheck) {
+	public static boolean isPrimee(int primeNumberCheck) {
 
 		if (primeNumberCheck == 1 || primeNumberCheck == 0) {
 			return false;
@@ -38,7 +44,7 @@ public class Helper {
 
 	// This method generates a prime number by getting a random value and
 	// searching for a prime number.
-	public int generatePrimeNumber() {
+	public static int generatePrimeNumber() {
 
 		Random rng = new Random();
 		int value = 0;
@@ -56,7 +62,7 @@ public class Helper {
 	 * This method checks if two numbers given by parameters are Co-prime or
 	 * not.
 	 */
-	public boolean isCoPrime(int firstvalue, int secondValue) {
+	public static boolean isCoPrime(int firstvalue, int secondValue) {
 
 		if (firstvalue == 0 || firstvalue == 1 || secondValue == 0 || secondValue == 1) {
 			return false;
@@ -77,6 +83,37 @@ public class Helper {
 		}
 
 		return false;
+	}
+	
+	
+	
+	public static int powerMode(int message, int exponent, int n) {
+
+		BigInteger BImessage = BigInteger.valueOf(message);
+		BigInteger BIexponent = BigInteger.valueOf(exponent);
+		BigInteger BIn = BigInteger.valueOf(n);
+		BigInteger result = BImessage.modPow(BIexponent, BIn);
+
+		return result.intValue();
+
+	}
+	
+	
+	public static void writerEncryptionFile(String fileOut, int cipher[]) {
+
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileOut));
+			for (int i = 0; i < cipher.length; i++) {
+				out.write((Integer.toString(cipher[i])));
+				out.newLine();
+
+			}
+
+			out.close();
+		} catch (IOException e) {
+			System.out.println("Cant Find the file");
+		}
+
 	}
 
 }
