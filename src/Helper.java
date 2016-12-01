@@ -1,11 +1,11 @@
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 
 public class Helper {
 
@@ -97,7 +97,15 @@ public class Helper {
 		return result.intValue();
 
 	}
-	
+
+	public static int calcDecrypt(int message, int d, int n){
+		BigInteger BImessage = BigInteger.valueOf(message);
+		BigInteger BIdecrypt = BigInteger.valueOf(d);
+		BigInteger BIn = BigInteger.valueOf(n);
+		BigInteger result = BImessage.modPow(BIdecrypt, BIn);
+
+		return result.intValue();
+	}
 	
 	public static void writerEncryptionFile(String fileOut, int cipher[]) {
 
@@ -115,5 +123,25 @@ public class Helper {
 		}
 
 	}
+    public static int[] readEncryptionFile(String fileOut){
+		int [] encrypted = new int [10];
 
+		BufferedReader reader = null;
+		try{
+
+			File file = new File(fileOut);
+			reader = new BufferedReader(new FileReader(file));
+			String line ;
+			int i = 0;
+			while((line = reader.readLine())!=null ){
+				encrypted[i] = Integer.parseInt(line);
+				++i;
+				System.out.println(line);
+			}
+
+		}catch (IOException e){
+			System.out.print(e);
+		}
+		return encrypted;
+	}
 }

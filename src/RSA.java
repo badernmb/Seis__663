@@ -12,11 +12,13 @@ public class RSA {
 
 		int p = Helper.generatePrimeNumber();
 		int q = Helper.generatePrimeNumber();
+        p = 17;
+        q = 7;
 
 		this.n = p * q;
 		int t = (p - 1) * (q - 1);
 		computeE(t);
-
+        computeD(t);
 	}
 
 	public void computeE(int t) {
@@ -35,6 +37,22 @@ public class RSA {
 
 	}
 
+	public void computeD(int t){
+        boolean check = false;
+        int i = 1;
+		while (check == false){
+            d = i ;
+
+            int x = d *this.e;
+            if ((d*this.e)% t == 1){
+                check = true;
+                System.out.println(d);
+            }
+            i++;
+		}
+
+ 	}
+
 	public int[] encrypt(String plainText) {
 
 		int CoTONu[] = new int[plainText.length()];
@@ -45,6 +63,22 @@ public class RSA {
 
 		return CoTONu;
 
+	}
+
+	public String  decrypt(int[]encrypted){
+		char CoToLe[] = new char[encrypted.length];
+		 int buff;
+		for (int i = 0; i <CoToLe.length; i++){
+			buff = Helper.calcDecrypt(encrypted[i], d, n);
+			CoToLe[i] = Helper.convertNumberToLetter(buff);
+		}
+        String message = "";
+
+		for(int i = 0; i <CoToLe.length; i++){
+			message += CoToLe[i];
+
+		}
+		return message;
 	}
 
 	public String toString() {
@@ -68,7 +102,10 @@ public class RSA {
 
 		int cipher[] = r1.encrypt(message);
 
-		Helper.writerEncryptionFile("test", cipher);
+		Helper.writerEncryptionFile("test.txt", cipher);
+
+        int [] encrypted = Helper.readEncryptionFile("test.txt");
+		 String v = r1.decrypt(encrypted);
 
 	}
 
