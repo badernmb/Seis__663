@@ -12,8 +12,8 @@ public class RSA {
 
 		int p = Helper.generatePrimeNumber();
 		int q = Helper.generatePrimeNumber();
-        p = 17;
-        q = 7;
+
+
 
 		this.n = p * q;
 		int t = (p - 1) * (q - 1);

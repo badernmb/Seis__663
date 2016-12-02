@@ -114,7 +114,6 @@ public class Helper {
 			for (int i = 0; i < cipher.length; i++) {
 				out.write((Integer.toString(cipher[i])));
 				out.newLine();
-
 			}
 
 			out.close();
