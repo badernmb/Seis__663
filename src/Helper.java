@@ -1,6 +1,7 @@
 
 import java.io.*;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -124,7 +125,7 @@ public class Helper {
 
 	}
     public static int[] readEncryptionFile(String fileOut){
-		int [] encrypted = new int [10];
+		int [] encrypted = new int [0];
 
 		BufferedReader reader = null;
 		try{
@@ -134,9 +135,13 @@ public class Helper {
 			String line ;
 			int i = 0;
 			while((line = reader.readLine())!=null ){
-				encrypted[i] = Integer.parseInt(line);
-				++i;
-				System.out.println(line);
+				
+				//keeping the array growing until the end of file
+				int[] encDataCopy = Arrays.copyOf(encrypted, encrypted.length + 1);
+				encDataCopy[i]=Integer.parseInt(line);
+				encrypted=encDataCopy;
+				i++;
+				System.out.print(line);
 			}
 
 		}catch (IOException e){

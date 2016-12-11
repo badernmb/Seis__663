@@ -12,9 +12,7 @@ public class RSA {
 
 		int p = Helper.generatePrimeNumber();
 		int q = Helper.generatePrimeNumber();
-        p = 17;
-        q = 7;
-
+		
 		this.n = p * q;
 		int t = (p - 1) * (q - 1);
 		computeE(t);
@@ -36,21 +34,20 @@ public class RSA {
 		}
 
 	}
+	
+	public int modInverse(int exponent, int totient) {
+
+		BigInteger BIexponent = BigInteger.valueOf(exponent);
+		BigInteger BItotient = BigInteger.valueOf(totient);
+		BigInteger result = BIexponent.modInverse(BItotient);
+
+		return result.intValue();
+
+	}
 
 	public void computeD(int t){
-        boolean check = false;
-        int i = 1;
-		while (check == false){
-            d = i ;
-
-            int x = d *this.e;
-            if ((d*this.e)% t == 1){
-                check = true;
-                System.out.println(d);
-            }
-            i++;
-		}
-
+       
+		this.d = modInverse(e, t);
  	}
 
 	public int[] encrypt(String plainText) {
@@ -91,21 +88,27 @@ public class RSA {
 
 		Scanner input = new Scanner(System.in);
 		RSA r1 = new RSA();
-
 	
 
 		System.out.println("Enter the message :");
 
 		String message = input.nextLine();
 
-		System.out.println(message);
+		//System.out.println(message);
 
 		int cipher[] = r1.encrypt(message);
 
-		Helper.writerEncryptionFile("test.txt", cipher);
-
-        int [] encrypted = Helper.readEncryptionFile("test.txt");
+		Helper.writerEncryptionFile("test.txt",cipher);
+		
+		 int [] encrypted = Helper.readEncryptionFile("test.txt");
 		 String v = r1.decrypt(encrypted);
+
+		System.out.println("\n message :"+r1.decrypt(encrypted));
+		
+	//	Helper.writerEncryptionFile("test1.txt", cipher);
+
+
+		 
 
 	}
 
