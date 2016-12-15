@@ -115,7 +115,7 @@ public class Helper {
 			for (int i = 0; i < cipher.length; i++) {
 				out.write((Integer.toString(cipher[i])));
 				out.newLine();
-
+				System.out.print(cipher[i]);
 			}
 
 			out.close();
@@ -141,7 +141,7 @@ public class Helper {
 				encDataCopy[i]=Integer.parseInt(line);
 				encrypted=encDataCopy;
 				i++;
-				System.out.print(line);
+				
 			}
 
 		}catch (IOException e){

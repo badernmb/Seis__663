@@ -12,11 +12,22 @@ public class RSA {
 
 		int p = Helper.generatePrimeNumber();
 		int q = Helper.generatePrimeNumber();
-		
+
 		this.n = p * q;
 		int t = (p - 1) * (q - 1);
 		computeE(t);
-        computeD(t);
+		computeD(t);
+	}
+
+	public RSA(int e, int n) {
+		this.e = e;
+		this.n = n;
+		
+
+	}
+
+	public void setD(int d) {
+		this.d = d;
 	}
 
 	public void computeE(int t) {
@@ -34,7 +45,7 @@ public class RSA {
 		}
 
 	}
-	
+
 	public int modInverse(int exponent, int totient) {
 
 		BigInteger BIexponent = BigInteger.valueOf(exponent);
@@ -45,12 +56,17 @@ public class RSA {
 
 	}
 
-	public void computeD(int t){
-       
-		this.d = modInverse(e, t);
- 	}
+	public void computeD(int t) {
 
-	public int[] encrypt(String plainText) {
+		this.d = modInverse(e, t);
+	}
+
+	public int[] encrypt() {
+
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("Enter the message");
+		String plainText = input.nextLine();
 
 		int CoTONu[] = new int[plainText.length()];
 		for (int i = 0; i < CoTONu.length; i++) {
@@ -62,16 +78,16 @@ public class RSA {
 
 	}
 
-	public String  decrypt(int[]encrypted){
+	public String decrypt(int[] encrypted) {
 		char CoToLe[] = new char[encrypted.length];
-		 int buff;
-		for (int i = 0; i <CoToLe.length; i++){
+		int buff;
+		for (int i = 0; i < CoToLe.length; i++) {
 			buff = Helper.calcDecrypt(encrypted[i], d, n);
 			CoToLe[i] = Helper.convertNumberToLetter(buff);
 		}
-        String message = "";
+		String message = "";
 
-		for(int i = 0; i <CoToLe.length; i++){
+		for (int i = 0; i < CoToLe.length; i++) {
 			message += CoToLe[i];
 
 		}
@@ -87,29 +103,54 @@ public class RSA {
 	public static void main(String[] args) {
 
 		Scanner input = new Scanner(System.in);
-		RSA r1 = new RSA();
-	
 
-		System.out.println("Enter the message :");
+		System.out.println("Welcome RSA  Cryptosystem \n");
 
-		String message = input.nextLine();
+		System.out.println("Please select the option below : (1-3)");
+		System.out.println("1 : Keys Genration");
+		System.out.println("2 : Auto Encryption and Decryption");
+		System.out.println("3 : Provide a key");
 
-		//System.out.println(message);
+		String userinput = input.next();
 
-		int cipher[] = r1.encrypt(message);
+		if (userinput.equals("1")) {
+			RSA r1 = new RSA();
+			System.out.println("Public key =" + "(" + r1.e + " ," + r1.n + ")");
+			System.out.println("Private key =" + "(" + r1.d + " ," + r1.n + ")");
 
-		Helper.writerEncryptionFile("test.txt",cipher);
-		
-		 int [] encrypted = Helper.readEncryptionFile("test.txt");
-		 String v = r1.decrypt(encrypted);
+		} else if (userinput.equals("2")) {
+			RSA r1 = new RSA();
 
-		System.out.println("\n message :"+r1.decrypt(encrypted));
-		
-	//	Helper.writerEncryptionFile("test1.txt", cipher);
+			int encryptMessage[] = r1.encrypt();
 
+			System.out.println("The below is the Encrypted Message : \n");
+			Helper.writerEncryptionFile("test.txt", encryptMessage);
 
-		 
+			System.out.println("\n \n The below is the Decrypted Message :");
+			System.out.println(r1.decrypt(Helper.readEncryptionFile("test.txt")));
+
+		} else if (userinput.equals("3")) {
+
+			System.out.println("Enter the value of e of public key \n");
+			int e = input.nextInt();
+			System.out.println("Enter the value of n of public key  \n");
+			int n = input.nextInt();
+
+			RSA r1 = new RSA(e, n);
+
+			int encryptMessage[] = r1.encrypt();
+
+			System.out.println("The below is the Encrypted Message : \n");
+			Helper.writerEncryptionFile("test.txt", encryptMessage);
+			
+			System.out.println(" \n \n Enter the value of private key");
+			int d = input.nextInt();
+			r1.setD(d);
+			
+			System.out.println("\n \n The below is the Decrypted Message :");
+			System.out.println(r1.decrypt(Helper.readEncryptionFile("test.txt")));
+
+		}
 
 	}
-
 }
