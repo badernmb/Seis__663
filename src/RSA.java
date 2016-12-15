@@ -13,6 +13,11 @@ public class RSA {
 		int p = Helper.generatePrimeNumber();
 		int q = Helper.generatePrimeNumber();
 
+		while (isOutOfRange(p, q)) {
+			p = Helper.generatePrimeNumber();
+			q = Helper.generatePrimeNumber();
+		}
+		
 		this.n = p * q;
 		int t = (p - 1) * (q - 1);
 		computeE(t);
@@ -22,7 +27,6 @@ public class RSA {
 	public RSA(int e, int n) {
 		this.e = e;
 		this.n = n;
-		
 
 	}
 
@@ -93,6 +97,23 @@ public class RSA {
 		}
 		return message;
 	}
+	
+	
+	public static boolean isOutOfRange(int p, int q) {
+
+		BigInteger bigP = BigInteger.valueOf(p);
+		BigInteger bigQ = BigInteger.valueOf(q);
+
+		BigInteger result = bigP.multiply(bigQ);
+
+		if (result.longValue() > Integer.MAX_VALUE) {
+
+			return true;
+		}
+		return false;
+
+	}
+	
 
 	public String toString() {
 
@@ -126,8 +147,14 @@ public class RSA {
 			System.out.println("The below is the Encrypted Message : \n");
 			Helper.writerEncryptionFile("test.txt", encryptMessage);
 
-			System.out.println("\n \n The below is the Decrypted Message :");
-			System.out.println(r1.decrypt(Helper.readEncryptionFile("test.txt")));
+			System.out.println("\n \n Do you want Decrypt ? : \n");
+			String userInput = input.next();
+			if (userInput.equalsIgnoreCase("Yes")) {
+
+				System.out.println("\n \n The below is the Decrypted Message :\n");
+				System.out.println(r1.decrypt(Helper.readEncryptionFile("test.txt")));
+
+			}
 
 		} else if (userinput.equals("3")) {
 
@@ -142,11 +169,11 @@ public class RSA {
 
 			System.out.println("The below is the Encrypted Message : \n");
 			Helper.writerEncryptionFile("test.txt", encryptMessage);
-			
+
 			System.out.println(" \n \n Enter the value of private key");
 			int d = input.nextInt();
 			r1.setD(d);
-			
+
 			System.out.println("\n \n The below is the Decrypted Message :");
 			System.out.println(r1.decrypt(Helper.readEncryptionFile("test.txt")));
 
